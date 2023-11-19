@@ -1,10 +1,5 @@
-import {
-	SlashCommandBuilder,
-	ChannelType,
-	TextChannel,
-	EmbedBuilder,
-} from 'discord.js';
-import { getAllGuildBids, getThemeColor } from '../functions';
+import { SlashCommandBuilder } from 'discord.js';
+import { getAllGuildBids } from '../functions';
 import { SlashCommand } from '../types';
 
 const command: SlashCommand = {

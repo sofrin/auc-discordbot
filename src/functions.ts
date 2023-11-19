@@ -92,6 +92,13 @@ export const setGuildToken = async (guild: Guild, value: any) => {
 	foundGuild.token = value;
 	foundGuild.save();
 };
+export const getGuildToken = async (guild: Guild) => {
+	if (mongoose.connection.readyState === 0)
+		throw new Error('Database not connected.');
+	let foundGuild = await GuildDB.findOne({ guildID: guild.id });
+	if (!foundGuild) return null;
+	return foundGuild.token;
+};
 
 export const setBid = async (username: string, value: any, guild: Guild) => {
 	if (mongoose.connection.readyState === 0)
@@ -116,4 +123,10 @@ export const getAllGuildBids = async (guild: Guild) => {
 		throw new Error('Database not connected.');
 	let foundBids: Ibid[] = await BidDB.find({ guildId: guild.id });
 	return foundBids;
+};
+
+export const clearAllGuildBids = async (guild: Guild) => {
+	if (mongoose.connection.readyState === 0)
+		throw new Error('Database not connected.');
+	await BidDB.deleteMany({ guildId: guild.id });
 };
