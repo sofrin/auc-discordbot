@@ -14,9 +14,9 @@ const command: SlashCommand = {
 				} в ${bid.timestamp?.split('T')[1].split('.')[0]}  \n`;
 			});
 			interaction.reply({
-				content: `Всего ${
-					bids.length
-				} фильмов в списке, список: \n ${table.join('')}`,
+				content: `Всего ${bids.length} фильмов в списке, список: \n${table.join(
+					'',
+				)}`,
 			});
 		});
 	},
