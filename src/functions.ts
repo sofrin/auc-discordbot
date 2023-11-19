@@ -10,7 +10,7 @@ import {
 import GuildDB from './schemas/Guild';
 import BidDB from './schemas/Bid';
 
-import { GuildOption } from './types';
+import { GuildOption, Ibid } from './types';
 import mongoose from 'mongoose';
 
 type colorType = 'text' | 'variable' | 'error';
@@ -96,16 +96,24 @@ export const setGuildToken = async (guild: Guild, value: any) => {
 export const setBid = async (username: string, value: any, guild: Guild) => {
 	if (mongoose.connection.readyState === 0)
 		throw new Error('Database not connected.');
-	let foundBid = await BidDB.findOne({ username: username });
+	let foundBid = await BidDB.findOne({ username: username, guildId: guild.id });
 	if (!foundBid) {
 		let newBid = new BidDB({
 			username: username,
-			guild: guild.id,
-			message: [value],
+			guildId: guild.id,
+			message: value,
+			timestamp: new Date().toISOString(),
 		});
 		newBid.save();
 		return;
 	}
-	foundBid.cost = value;
+	foundBid.message = value;
 	foundBid.save();
+};
+
+export const getAllGuildBids = async (guild: Guild) => {
+	if (mongoose.connection.readyState === 0)
+		throw new Error('Database not connected.');
+	let foundBids: Ibid[] = await BidDB.find({ guildId: guild.id });
+	return foundBids;
 };

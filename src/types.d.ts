@@ -37,8 +37,8 @@ export interface IGuild extends mongoose.Document {
 }
 
 export interface Ibid extends mongoose.Document {
-	guildID: string;
-	cost?: 123;
+	guildId: string;
+	cost?: number;
 	username?: string;
 	message: string;
 	id?: string;

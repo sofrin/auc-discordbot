@@ -4,6 +4,7 @@ import {
 	ActionRowBuilder,
 	TextInputBuilder,
 	TextInputStyle,
+	PermissionFlagsBits,
 } from 'discord.js';
 import { SlashCommand } from '../types';
 import { setGuildToken } from '../functions';
@@ -11,15 +12,14 @@ import { setGuildToken } from '../functions';
 const command: SlashCommand = {
 	command: new SlashCommandBuilder()
 		.setName('token')
-		.setDescription('What is your token?'),
+		.setDescription('Добавить токен для интеграции')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	execute: async (interaction) => {
-		const modal = new ModalBuilder()
-			.setCustomId('token')
-			.setTitle('What is your token?');
+		const modal = new ModalBuilder().setCustomId('token').setTitle('Токен');
 
 		const tokenInput = new TextInputBuilder()
 			.setCustomId('tokenInput')
-			.setLabel("What's some of your favorite token?")
+			.setLabel(' Добавьте ваш токен')
 			.setStyle(TextInputStyle.Paragraph);
 
 		const secondActionRow =
@@ -29,13 +29,24 @@ const command: SlashCommand = {
 
 		await interaction.showModal(modal);
 	},
+
 	modal: async (interaction) => {
 		await interaction.deferReply({ ephemeral: true });
 
 		const token = interaction.fields.getTextInputValue('tokenInput');
-		setGuildToken(interaction.guild, token);
-		await interaction.editReply({ content: `So, your token is ${token}!` });
+		setGuildToken(interaction.guild, token)
+			.then(() => {
+				interaction.editReply({
+					content: `Ваш токен был успешно зарегестрирован`,
+				});
+			})
+			.catch((err) => {
+				interaction.editReply({
+					content: `Произошла ошибка: ${err}`,
+				});
+			});
 	},
+
 	cooldown: 5,
 };
 
