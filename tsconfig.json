@@ -102,7 +102,5 @@
 	},
 	"include": [
 		"./src/**/*",
-		"src/commands/greet.ts",
-		"src/commands/changePrefix.ts"
 	]
 }
