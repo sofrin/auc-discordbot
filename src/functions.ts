@@ -101,6 +101,7 @@ export const getGuildToken = async (guild: Guild) => {
 };
 
 export const setBid = async (
+	color: `#${string}`,
 	username: string,
 	value: any,
 	guild: Guild,
@@ -111,6 +112,7 @@ export const setBid = async (
 	let foundBid = await BidDB.findOne({ username: username, guildId: guild.id });
 	if (!foundBid) {
 		let newBid = new BidDB({
+			color,
 			cost,
 			username: username,
 			guildId: guild.id,
@@ -123,6 +125,7 @@ export const setBid = async (
 	foundBid.message = value;
 	foundBid.timestamp = new Date().toISOString();
 	foundBid.cost = cost;
+	foundBid.color = color;
 
 	foundBid.save();
 };

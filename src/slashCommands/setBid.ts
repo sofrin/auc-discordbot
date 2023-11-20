@@ -17,7 +17,7 @@ const command: SlashCommand = {
 		const guildApprovedRoles = await getGuildRoles(interaction.guild!);
 		const guild = interaction.guild!;
 		const member = guild.members.cache.get(interaction.user.id);
-
+		const color = member?.displayHexColor!;
 		let points = 0;
 		if (guildApprovedRoles) {
 			member?.roles.cache.reduce((acc, role) => {
@@ -32,14 +32,21 @@ const command: SlashCommand = {
 
 		let filmBid = interaction.options.getString('film');
 		console.log(filmBid);
-
-		setBid(interaction.user.username, filmBid, interaction.guild!, points)
-			.then(() => {
-				interaction.reply(`Фильм ${filmBid} добавлен в список.`);
-			})
-			.catch((err) => {
-				interaction.reply(`Произошла ошибка: ${err}`);
-			});
+		if (points > 0) {
+			setBid(
+				color,
+				interaction.user.username,
+				filmBid,
+				interaction.guild!,
+				points,
+			)
+				.then(() => {
+					return interaction.reply(`Фильм ${filmBid} добавлен в список.`);
+				})
+				.catch((err) => {
+					return interaction.reply(`Произошла ошибка: ${err}`);
+				});
+		} else interaction.reply(`вы не можете добавлять фильмы`);
 	},
 	cooldown: 10,
 };
