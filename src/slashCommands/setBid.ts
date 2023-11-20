@@ -1,10 +1,6 @@
-import {
-	ChannelType,
-	PermissionFlagsBits,
-	SlashCommandBuilder,
-} from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { SlashCommand } from '../types';
-import { setBid } from '../functions';
+import { getGuildRoles, setBid } from '../functions';
 
 const command: SlashCommand = {
 	command: new SlashCommandBuilder()
@@ -17,11 +13,27 @@ const command: SlashCommand = {
 				.setRequired(true);
 		})
 		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
-	execute: (interaction) => {
+	execute: async (interaction) => {
+		const guildApprovedRoles = await getGuildRoles(interaction.guild!);
+		const guild = interaction.guild!;
+		const member = guild.members.cache.get(interaction.user.id);
+
+		let points = 0;
+		if (guildApprovedRoles) {
+			member?.roles.cache.reduce((acc, role) => {
+				for (let i = 0; i < guildApprovedRoles.length; i++) {
+					if (role.id === guildApprovedRoles[i].id) {
+						points = guildApprovedRoles[i].points;
+					}
+				}
+				return acc + points;
+			}, 0);
+		}
+
 		let filmBid = interaction.options.getString('film');
 		console.log(filmBid);
 
-		setBid(interaction.user.username, filmBid, interaction.guild!)
+		setBid(interaction.user.username, filmBid, interaction.guild!, points)
 			.then(() => {
 				interaction.reply(`Фильм ${filmBid} добавлен в список.`);
 			})

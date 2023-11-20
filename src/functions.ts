@@ -100,12 +100,18 @@ export const getGuildToken = async (guild: Guild) => {
 	return foundGuild.token;
 };
 
-export const setBid = async (username: string, value: any, guild: Guild) => {
+export const setBid = async (
+	username: string,
+	value: any,
+	guild: Guild,
+	cost = 123,
+) => {
 	if (mongoose.connection.readyState === 0)
 		throw new Error('Database not connected.');
 	let foundBid = await BidDB.findOne({ username: username, guildId: guild.id });
 	if (!foundBid) {
 		let newBid = new BidDB({
+			cost,
 			username: username,
 			guildId: guild.id,
 			message: value,
@@ -115,6 +121,9 @@ export const setBid = async (username: string, value: any, guild: Guild) => {
 		return;
 	}
 	foundBid.message = value;
+	foundBid.timestamp = new Date().toISOString();
+	foundBid.cost = cost;
+
 	foundBid.save();
 };
 
@@ -129,4 +138,41 @@ export const clearAllGuildBids = async (guild: Guild) => {
 	if (mongoose.connection.readyState === 0)
 		throw new Error('Database not connected.');
 	await BidDB.deleteMany({ guildId: guild.id });
+};
+
+export const setGuildRoles = async (
+	guild: Guild,
+	id: string,
+	color: string,
+	points: number,
+	name: string,
+) => {
+	if (mongoose.connection.readyState === 0)
+		throw new Error('Database not connected.');
+	let foundGuild = await GuildDB.findOne({ guildID: guild.id });
+	if (!foundGuild) return null;
+	const foundRole = foundGuild.roles.find((role) => role.id === id);
+	if (!foundRole) {
+		let newRole = {
+			name: name,
+			id: id,
+			color: color,
+			points: points,
+		};
+		foundGuild.roles.push(newRole);
+		foundGuild.save();
+		return;
+	}
+	foundRole.name = name;
+	foundRole.color = color;
+	foundRole.points = points;
+	foundGuild.save();
+};
+
+export const getGuildRoles = async (guild: Guild) => {
+	if (mongoose.connection.readyState === 0)
+		throw new Error('Database not connected.');
+	let foundGuild = await GuildDB.findOne({ guildID: guild.id });
+	if (!foundGuild) return null;
+	return foundGuild.roles;
 };

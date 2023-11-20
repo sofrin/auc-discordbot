@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 const { Guilds, MessageContent, GuildMessages, GuildMembers } =
 	GatewayIntentBits;
-const client = new Client({
+export const client = new Client({
 	intents: [Guilds, MessageContent, GuildMessages, GuildMembers],
 });
 import { SlashCommand } from './types';
