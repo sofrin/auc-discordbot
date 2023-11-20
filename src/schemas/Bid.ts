@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { Ibid } from '../types';
 
 const BidSchema = new Schema<Ibid>(
@@ -11,11 +11,6 @@ const BidSchema = new Schema<Ibid>(
 		color: { type: String, default: '#436519' },
 		isDonation: { type: Boolean, default: false },
 		timestamp: { type: String },
-		// guild: {
-		// 	type: mongoose.Schema.Types.ObjectId,
-		// 	ref: 'Guild',
-		// 	required: true,
-		// },
 	},
 	{
 		timestamps: true,
