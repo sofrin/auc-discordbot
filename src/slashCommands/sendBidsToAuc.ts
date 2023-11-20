@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { getAllGuildBids, getGuildToken } from '../functions';
 import { SlashCommand } from '../types';
 const myHeaders = new Headers();
@@ -6,7 +6,8 @@ myHeaders.append('Content-Type', 'application/json');
 const command: SlashCommand = {
 	command: new SlashCommandBuilder()
 		.setName('sendfilms')
-		.setDescription('Отправить список фильмов в аукцион'),
+		.setDescription('Отправить список фильмов в аукцион')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	execute: async (interaction) => {
 		const token = await getGuildToken(interaction.guild!);
 
