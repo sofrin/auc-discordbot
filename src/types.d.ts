@@ -34,6 +34,12 @@ export interface IGuild extends mongoose.Document {
 	options: GuildOptions;
 	joinedAt: Date;
 	token: string;
+	roles: {
+		name: string;
+		id: string;
+		color: string;
+		points: number;
+	}[];
 }
 
 export interface Ibid extends mongoose.Document {

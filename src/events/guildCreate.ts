@@ -11,6 +11,12 @@ const event: BotEvent = {
 			joinedAt: Date.now(),
 			bids: [],
 			token: '',
+			roles: {
+				name: '',
+				id: '',
+				color: '',
+				points: 100,
+			},
 		});
 		newGuild.save();
 	},
