@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 const { Guilds, MessageContent, GuildMessages, GuildMembers } =
 	GatewayIntentBits;
-const client = new Client({
+export const client = new Client({
 	intents: [Guilds, MessageContent, GuildMessages, GuildMembers],
 });
 import { SlashCommand } from './types';
@@ -30,9 +30,12 @@ readdirSync(handlersDir).forEach((handler) => {
 
 const app = express();
 
+
+
 app.get('/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
 app.listen(3000);
+
 client.login(process.env.TOKEN);
