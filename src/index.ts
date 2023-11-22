@@ -13,6 +13,9 @@ import { SlashCommand } from './types';
 import { config } from 'dotenv';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+
+import express from 'express';
+
 config();
 
 client.slashCommands = new Collection<string, SlashCommand>();
@@ -25,4 +28,11 @@ readdirSync(handlersDir).forEach((handler) => {
 	require(`${handlersDir}/${handler}`)(client);
 });
 
+const app = express();
+
+app.get('/helthcheck', (req, res) => {
+	res.send('OK').status(200);
+});
+
+app.listen(3000);
 client.login(process.env.TOKEN);
