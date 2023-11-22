@@ -30,9 +30,7 @@ readdirSync(handlersDir).forEach((handler) => {
 
 const app = express();
 
-
-
-app.get('/helthcheck', (req, res) => {
+app.get('auc-bot-epq0.onrender.com:10000/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
