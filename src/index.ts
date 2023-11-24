@@ -29,6 +29,20 @@ app.get('/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
+app.post('/helthcheck', (req, res) => {
+	req.body;
+});
+
+setInterval(function () {
+	fetch('/helthcheck', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({}),
+	});
+}, 600000);
+
 app.listen(10000);
 
 client.login(process.env.TOKEN);
