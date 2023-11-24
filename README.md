@@ -8,6 +8,7 @@
 
 # Quick start 
  -  [Добавить бота](https://discord.com/api/oauth2/authorize?client_id=877617029056700437&permissions=2147552256&scope=bot)  на сервер
+ -  включить интеграцию с твитчем на [сайте](https://pointauc.com)
  - скопировать токен из [настроек](https://pointauc.com/settings)
  - добавить токен в бота командой /token
  - командой /setrole выбрать роль и количество поинтов, повторить по необходимости
