@@ -29,6 +29,6 @@ app.get('/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
-app.listen(3000);
+app.listen(10000);
 
 client.login(process.env.TOKEN);
