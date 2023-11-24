@@ -35,7 +35,7 @@ app.post('/helthcheck', (req, res) => {
 
 setInterval(function () {
 	fetch('/helthcheck', {
-		method: 'GET',
+		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
