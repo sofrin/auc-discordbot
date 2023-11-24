@@ -1,9 +1,4 @@
-import {
-	Client,
-	GatewayIntentBits,
-	Collection,
-	PermissionFlagsBits,
-} from 'discord.js';
+import { Client, GatewayIntentBits, Collection } from 'discord.js';
 const { Guilds, MessageContent, GuildMessages, GuildMembers } =
 	GatewayIntentBits;
 export const client = new Client({
@@ -30,7 +25,7 @@ readdirSync(handlersDir).forEach((handler) => {
 
 const app = express();
 
-app.get('auc-bot-epq0.onrender.com:10000/helthcheck', (req, res) => {
+app.get('/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
