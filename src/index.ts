@@ -37,10 +37,6 @@ app.post('/helthcheck', (req, res) => {
 	req.body;
 });
 
-setInterval(function () {
-	fetch('/helthcheck');
-}, 600000);
-
 app.listen(10000);
 
 client.login(process.env.TOKEN);
