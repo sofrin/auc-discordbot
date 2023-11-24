@@ -29,18 +29,16 @@ app.get('/helthcheck', (req, res) => {
 	res.send('OK').status(200);
 });
 
+app.get('/', (req, res) => {
+	res.send('OK').status(200);
+});
+
 app.post('/helthcheck', (req, res) => {
 	req.body;
 });
 
 setInterval(function () {
-	fetch('/helthcheck', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({}),
-	});
+	fetch('/helthcheck');
 }, 600000);
 
 app.listen(10000);
